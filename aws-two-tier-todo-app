@@ -1,0 +1,15 @@
+<script>start("c:\\Users\\Chalitha\\OneDrive - Asian Health Coalition\\Documents\\GitHub\\aws-two-tier-todo-app\\");</script>
+<script>onHasParentDirectory();</script>
+<script>addRow(".git",".git",1,0,"0 B",1754929752,"8/11/25, 11:29:12 AM");</script>
+<script>addRow(".githubworkflows",".githubworkflows",1,0,"0 B",1754923838,"8/11/25, 9:50:38 AM");</script>
+<script>addRow("docs","docs",1,0,"0 B",1754929337,"8/11/25, 11:22:17 AM");</script>
+<script>addRow("public","public",1,0,"0 B",1754922712,"8/11/25, 9:31:52 AM");</script>
+<script>addRow("scripts","scripts",1,0,"0 B",1754923678,"8/11/25, 9:47:58 AM");</script>
+<script>addRow("complete_readme.md","complete_readme.md",0,11272,"11.0 kB",1754921903,"8/11/25, 9:18:23 AM");</script>
+<script>addRow("deployment.md","deployment.md",0,12366,"12.1 kB",1754921692,"8/11/25, 9:14:52 AM");</script>
+<script>addRow("env_config.sh","env_config.sh",0,159,"159 B",1754778554,"8/9/25, 5:29:14 PM");</script>
+<script>addRow("index.js","index.js",0,3554,"3.5 kB",1754922575,"8/11/25, 9:29:35 AM");</script>
+<script>addRow("LICENSE","LICENSE",0,1099,"1.1 kB",1754764699,"8/9/25, 1:38:19 PM");</script>
+<script>addRow("package-lock.json","package-lock.json",0,47017,"45.9 kB",1754922575,"8/11/25, 9:29:35 AM");</script>
+<script>addRow("package.json","package.json",0,453,"453 B",1754922575,"8/11/25, 9:29:35 AM");</script>
+<script>addRow("README.md","README.md",0,13839,"13.5 kB",1754922796,"8/11/25, 9:33:16 AM");</script>

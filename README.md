@@ -22,7 +22,7 @@ This project demonstrates **enterprise-level cloud architecture expertise** thro
 
 ## 🏗️ **System Architecture**
 
-![AWS Two-Tier Architecture](docs/architecture-diagram.png)
+![AWS Two-Tier Architecture](docs/Two%20tier%20website%20diagram.jpg)
 
 ### **Infrastructure Design Philosophy:**
 ```
@@ -78,31 +78,43 @@ This project demonstrates **enterprise-level cloud architecture expertise** thro
 
 ---
 
-## 🖼️ **Live Application Evidence**
+## 🖼️ **Production Infrastructure Evidence**
 
-### **🌐 Production Application Interface**
-![Todo App Live Interface](docs/screenshots/live-app-interface.png)
-*Clean, responsive todo application accessible via load balancer at production URL*
+### **🌐 Live Application Interface**
+![Todo App Running](docs/screenshots/TodoApp_ngix_complete_app_running.png)
+*Production todo application running on Nginx with PM2 process management*
 
-### **☁️ AWS Infrastructure Console**
-![AWS Production Environment](docs/screenshots/aws-infrastructure-overview.png)
-*Complete AWS environment showing all services configured and running in production*
+### **📡 Application Load Balancer Configuration**
+![Load Balancer Setup](docs/screenshots/TodoApp_ALB.png)
+*Application Load Balancer distributing traffic across multiple EC2 instances with health checks*
 
-### **📡 Load Balancer Health Status**
-![Load Balancer Configuration](docs/screenshots/load-balancer-health.png)
-*Application Load Balancer showing healthy targets across multiple availability zones*
+### **🖥️ EC2 Instances Multi-AZ Deployment**
+![EC2 Instances](docs/screenshots/TodoApp_Instances.png)
+*Two EC2 instances running across different availability zones for high availability*
 
-### **🗄️ Database Connectivity & Security**
-![Secure Database Access](docs/screenshots/database-security-access.png)
-*RDS MySQL accessed securely through bastion host, demonstrating private subnet isolation*
+### **🗄️ RDS Database Configuration**
+![RDS Database](docs/screenshots/TodoApp_RDS.png)
+*Multi-AZ RDS MySQL database with encryption and automated backups enabled*
 
-### **📊 Real-Time Monitoring Dashboard**
-![System Performance Monitoring](docs/screenshots/ec2-performance-monitoring.png)
-*Live EC2 performance metrics showing optimized resource utilization and health*
+### **🔒 VPC Network Architecture**
+![VPC Configuration](docs/screenshots/TodoApp_VPC.png)
+*Custom VPC with public/private subnets across multiple availability zones*
 
-### **🔧 Infrastructure Components**
-![VPC and Security Configuration](docs/screenshots/vpc-security-groups.png)
-*VPC design with proper subnet segmentation and security group configuration*
+### **🛡️ Security Groups Implementation**
+![Security Groups](docs/screenshots/TodoApp_SecurityGroups.png)
+*Properly configured security groups implementing defense-in-depth security*
+
+### **🔐 IAM Security & Access Management**
+![IAM Configuration](docs/screenshots/TodoApp_IAM.png)
+*IAM roles and policies following principle of least privilege access*
+
+### **🔗 Secure Database Connectivity**
+![Database Connection](docs/screenshots/TodoApp_mysql_connect_to_basin_instance.png)
+*Secure MySQL connection through bastion host demonstrating private subnet isolation*
+
+### **🚀 Complete Application Deployment**
+![Deployment Process](docs/screenshots/TodoApp_Deployment.png)
+*End-to-end deployment process showing all components working together*
 
 ---
 
@@ -131,7 +143,7 @@ This project demonstrates **enterprise-level cloud architecture expertise** thro
 - **Defense-in-Depth Security** - Multiple security layers and controls
 - **Network Security Design** - VPC, subnets, and security group architecture
 - **Data Protection** - Encryption at rest and secure access patterns
-- **Compliance-Ready Infrastructure** - Following AWS security best practices
+- **IAM Best Practices** - Proper roles and permissions management
 
 ### **⚙️ DevOps & Automation Excellence:**
 - **Infrastructure Automation** - Scripted deployment and configuration
@@ -158,40 +170,52 @@ This project demonstrates **enterprise-level cloud architecture expertise** thro
 ### **Infrastructure Specifications:**
 ```yaml
 Network Architecture:
-  VPC: 10.0.0.0/16 (Custom VPC)
-  Public Subnets: 2 (10.0.1.0/24, 10.0.2.0/24)
-  Private Subnets: 2 (10.0.3.0/24, 10.0.4.0/24)
-  Availability Zones: us-east-1a, us-east-1b
-  Internet Gateway: High-availability internet access
+  VPC: 10.0.0.0/16 (Custom VPC - TodoAppVPC)
+  Public Subnets: 
+    - TodoApp-Subnet-Public-A (10.0.1.0/24, us-east-1a)
+    - TodoApp-Subnet-Public-B (10.0.2.0/24, us-east-1b)
+  Private Subnets: 
+    - TodoApp-Subnet-Private-A (10.0.3.0/24, us-east-1a)
+    - TodoApp-Subnet-Private-B (10.0.4.0/24, us-east-1b)
+  Internet Gateway: TodoApp-IGW
   Route Tables: Separate for public/private traffic control
 
 Compute Resources:
-  EC2 Instances: 2x t3.micro (different AZs)
-  Load Balancer: Application Load Balancer (internet-facing)
+  EC2 Instances: 
+    - web-server-1 (t3.micro, us-east-1a)
+    - web-server-2 (t3.micro, us-east-1b)
+  Load Balancer: TodoApp-ALB (Application Load Balancer)
+  Target Group: todoapp-TG with health checks
   Auto-Scaling: Ready for horizontal scaling
-  Process Management: PM2 with auto-restart capabilities
 
 Database Configuration:
   Engine: MySQL Community 8.0.35
-  Instance: db.t3.micro with Multi-AZ deployment
+  Instance: todo-instance1 (db.t3.micro)
+  Multi-AZ: Enabled for high availability
   Storage: 20GB GP2 with auto-scaling to 100GB
-  Backup: 7-day retention with point-in-time recovery
+  Backup: 7-day retention with automated backups
   Security: Encryption at rest, private subnet isolation
 ```
 
 ### **Security Architecture:**
 ```yaml
+Security Groups:
+  ALB-SG: HTTP/HTTPS from internet (0.0.0.0/0)
+  TodoApp-Database-SG: MySQL (3306) from web servers only
+  Webserver-SG: HTTP from ALB, SSH for management
+  ec2-rds-1: Database access controls
+  default: VPC default security group
+
+IAM Configuration:
+  Roles: rds-monitoring-role for enhanced monitoring
+  Policies: Least privilege access principles
+  Users: Proper separation of duties
+
 Network Security:
-  Security Groups: 3 layers (ALB, Web, Database)
-  Network ACLs: Additional subnet-level protection
   Private Subnets: Database tier completely isolated
   Bastion Host Access: Secure administrative access
-
-Access Control:
-  IAM Roles: Least privilege access principles
   Security Group Rules: Minimal required access only
-  Database Access: Web tier only, no direct internet access
-  Encryption: Data at rest and in transit protection
+  VPC Flow Logs: Network traffic monitoring capability
 ```
 
 ---
@@ -217,100 +241,3 @@ Access Control:
 - **Scalability Assurance**: Handles traffic spikes without manual intervention
 
 ---
-
-## 📁 **Complete Project Structure**
-
-```
-aws-two-tier-todo-app/
-├── 📄 README.md                    # Project overview (this file)
-├── 🏗️ ARCHITECTURE.md              # Detailed technical documentation
-├── 🚀 DEPLOYMENT.md                # Step-by-step deployment guide
-├── 🤝 CONTRIBUTING.md              # Contribution guidelines
-├── ⚖️ LICENSE                      # MIT License
-├── 🔧 .env.example                 # Environment configuration template
-├── 📦 package.json                 # Node.js dependencies and scripts
-├── ⚡ index.js                     # Express application server
-├── 🌐 public/                      # Frontend application
-│   ├── index.html                 # Main application interface
-│   ├── style.css                  # Responsive styling
-│   └── script.js                  # Frontend JavaScript logic
-├── 🤖 scripts/                     # Automation and deployment
-│   ├── setup.sh                   # EC2 instance automated setup
-│   └── deploy.sh                  # Application deployment script
-├── 📚 docs/                        # Documentation and visuals
-│   ├── README.md                  # Documentation overview
-│   ├── architecture-diagram.png   # System architecture visual
-│   └── screenshots/               # Live application screenshots
-├── ☁️ infrastructure/              # Infrastructure as Code (future)
-│   ├── README.md                  # IaC documentation
-│   ├── cloudformation/            # AWS CloudFormation templates
-│   └── terraform/                 # Terraform configurations
-└── 🔄 .github/workflows/           # CI/CD automation
-    └── ci.yml                     # Continuous integration pipeline
-```
-
----
-
-## 🌟 **What Sets This Project Apart**
-
-### **🏭 Production-Ready Implementation:**
-1. **Real Deployment** - Not a tutorial; actually running in AWS production
-2. **Enterprise Standards** - Multi-AZ, security, monitoring, documentation
-3. **Business Focus** - Solves real problems with measurable outcomes
-4. **Scalability Proven** - Architecture tested and verified for growth
-
-### **💼 Professional Excellence:**
-1. **Complete Documentation** - Business and technical stakeholders covered
-2. **Automation First** - Scripts for deployment, maintenance, and scaling
-3. **Security Conscious** - Enterprise-grade security implementation
-4. **Cost Optimized** - Maximum value with minimal infrastructure spend
-
-### **🎓 Learning & Development:**
-1. **Knowledge Transfer** - Complete guides for reproduction and learning
-2. **Best Practices** - Following AWS Well-Architected Framework
-3. **Real-World Application** - Practical implementation of cloud concepts
-4. **Continuous Improvement** - Built for iteration and enhancement
-
----
-
-## 📞 **Professional Contact & Collaboration**
-
-**🌐 Live Application:** [todoapp-alb-1854379155.us-east-1.elb.amazonaws.com](http://todoapp-alb-1854379155.us-east-1.elb.amazonaws.com)
-
-📧 **Email:** chalitha.handapangoda@example.com  
-💼 **LinkedIn:** [linkedin.com/in/chalithahandapangoda](https://linkedin.com/in/chalithahandapangoda)  
-🐙 **GitHub:** [github.com/chalithahandapangoda](https://github.com/chalithahandapangoda)
-
-### **Available for:**
-- ☁️ **Cloud Architecture Consulting** - AWS infrastructure design and optimization
-- 🏢 **Enterprise Cloud Migration** - Legacy system modernization
-- 📊 **Technical Leadership** - Cloud engineering team development
-- 🎓 **Knowledge Sharing** - AWS training and best practices workshops
-
----
-
-## 🏅 **Project Recognition & Impact**
-
-### **Technical Achievement:**
-- ✅ **Enterprise-Grade Architecture** implemented and deployed
-- ✅ **Production-Level Security** with zero security incidents
-- ✅ **Cost-Effective Solution** delivering maximum ROI
-- ✅ **High-Availability Proven** through testing and monitoring
-- ✅ **Scalability Demonstrated** through load testing and architecture review
-
-### **Professional Development:**
-- ✅ **Advanced AWS Skills** across multiple service domains
-- ✅ **Infrastructure Automation** capabilities with scripts and IaC
-- ✅ **Security Implementation** following enterprise best practices
-- ✅ **Documentation Excellence** for technical and business stakeholders
-- ✅ **Performance Optimization** achieving sub-200ms response times
-
----
-
-⭐ **Star this repository if you found this AWS cloud architecture implementation valuable!**
-
----
-
-*This project demonstrates production-level AWS expertise and enterprise cloud architecture capabilities. Built for real-world application with business-focused outcomes and technical excellence.*
-
-**Last Updated:** January 2025 | **Status:** ✅ Production Active | **Next:** Auto-scaling implementation
